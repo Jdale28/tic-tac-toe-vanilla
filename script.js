@@ -13,24 +13,44 @@ const winCombos = [
 ];
 
 const cells = document.querySelectorAll(".cell");
+let clicks = 0
 
 startGame();
 
 function startGame() {
-  document.querySelector(".endgame").style.display = "none";
-  createBoard = Array.from(Array(9).keys());
-  for (var i = 0; i < cells.length; i++) {
-    cells[i].innerText = "";
-    cells[i].style.removeProperty("background-color");
-    cells[i].addEventListener("click", turnClick, false);
-  }
+    document.querySelector(".endgame").style.display = "none";
+    createBoard = Array.from(Array(9).keys());
+    for (var i = 0; i < cells.length; i++) {
+        cells[i].innerText = "";
+        cells[i].style.removeProperty("background-color");
+        cells[i].addEventListener("click", turnClick, false);
+    }
+}
+
+let hardmode = false
+var clicked = true
+function hardMode() {
+    clicked = !clicked
+    if (!clicked) {
+        document.querySelector("body").style.backgroundColor = "red"
+        document.querySelector("#hardMode").innerHTML = "Easy Mode"
+        hardmode = true
+    } else {
+        document.querySelector("body").style.backgroundColor = "white"
+        document.querySelector("#hardMode").innerHTML = "Hard Mode"
+        hardmode = false
+    }
 }
 
 function turnClick(square) {
   if (typeof createBoard[square.target.id] === "number") {
     turn(square.target.id, humanPlayer);
     // AI turns
-    if (!checkTie()) turn(bestSpot(), aiPlayer);
+    if (hardmode === false){
+        if (!checkTie()) turn(bestSpot(), aiPlayer);
+    } else {
+        if (!checkTie()) turn(bestSpotMin(), aiPlayer);
+    }
   }
 }
 

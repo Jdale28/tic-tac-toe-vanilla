@@ -49,3 +49,7 @@ table tr td:last-child {
     color: white;
     font-size: 2rem;
 }
+
+body {
+    background-color: white
+}
