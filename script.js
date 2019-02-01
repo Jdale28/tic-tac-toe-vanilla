@@ -1,5 +1,5 @@
 var createBoard;
-const humanPlayer = "0";
+const humanPlayer = "O";
 const aiPlayer = "X";
 const winCombos = [
   [0, 1, 2],
@@ -27,7 +27,11 @@ function startGame() {
 }
 
 function turnClick(square) {
-  turn(square.target.id, humanPlayer);
+  if (typeof createBoard[square.target.id] === "number") {
+    turn(square.target.id, humanPlayer);
+    // AI turns
+    if (!checkTie()) turn(bestSpot(), aiPlayer);
+  }
 }
 
 function turn(squareId, player) {
@@ -50,13 +54,50 @@ function checkWin(board, player) {
 }
 
 function gameOver(gameWon) {
-  for (let index of winCombos[gameWon.index]) {
-    document.getElementById(index).style.backgroundColor =
-      gameWon.player == humanPlayer ? "blue" : "red";
-  }
-  for (var i = 0; i < cells.length; i++) {
-    cells[i].removeEventListener("click", turnClick, false);
-  }
+	for (let index of winCombos[gameWon.index]) {
+		document.getElementById(index).style.backgroundColor =
+			gameWon.player == humanPlayer ? "blue" : "red";
+	}
+	for (var i = 0; i < cells.length; i++) {
+		cells[i].removeEventListener('click', turnClick, false);
+	}
+	declareWinner(gameWon.player == humanPlayer ? "You win!" : "You lose.");
 }
 
-// Basic AI
+
+// Basic AI functions
+function declareWinner(who) {
+	document.querySelector(".endgame").style.display = "block";
+	document.querySelector(".endgame .text").innerText = who;
+}
+
+function emptySquares() {
+	return createBoard.filter(s => typeof s == 'number');
+}
+
+function bestSpot() {
+	return emptySquares()[0];
+}
+
+function checkTie() {
+	if (emptySquares().length == 0) {
+		for (var i = 0; i < cells.length; i++) {
+			cells[i].style.backgroundColor = "green";
+			cells[i].removeEventListener('click', turnClick, false);
+		}
+		declareWinner("Tie Game!")
+		return true;
+	}
+	return false;
+}
+
+// Minimax function (unbeatable)
+
+function bestSpotMin() {
+    return minimax(createBoard, aiPlayer).index
+}
+
+function minimax(newBoard, player) {
+    var availableSpots = emptySquares(newBoard)
+    if (checkWin)
+}
