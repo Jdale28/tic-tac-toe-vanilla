@@ -54,6 +54,18 @@ function turnClick(square) {
   }
 }
 
+function turnOff(square) {
+    if (typeof createBoard[square.target.id] === "number") {
+      turn(square.target.id, humanPlayer);
+      // AI turns
+      if (hardmode === false){
+          if (!checkTie()) turn(bestSpot(), aiPlayer);
+      } else {
+          if (!checkTie()) turn(bestSpotMin(), aiPlayer);
+      }
+    }
+  }
+
 function turn(squareId, player) {
   createBoard[squareId] = player;
   document.getElementById(squareId).innerText = player;
