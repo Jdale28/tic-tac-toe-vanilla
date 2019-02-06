@@ -54,7 +54,8 @@ function turnClick(square) {
   }
 }
 
-function turnOff(square) {
+// Creating more for code project
+function turnDown(square) {
     if (typeof createBoard[square.target.id] === "number") {
       turn(square.target.id, humanPlayer);
       // AI turns
