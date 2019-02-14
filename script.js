@@ -99,11 +99,6 @@ function bestSpot() {
 	return emptySquares()[0];
 }
 
-// Testing alternate for edge cases
-function betterSpot() {
-	return emptySquares()[0];
-}
-// End test
 
 function checkTie() {
 	if (emptySquares().length == 0) {
